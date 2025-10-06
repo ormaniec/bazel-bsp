@@ -91,11 +91,9 @@ object BazelBspScalaProjectLimitedImportTest : BazelBspTestBaseScenario() {
   }
 
   override fun expectedWorkspaceBuildTargetsResult(): WorkspaceBuildTargetsResult {
-
     return WorkspaceBuildTargetsResult(
       listOf(
         createTarget("$targetPrefix//scala_targets:library"),
-        createTarget("$targetPrefix//scala_targets:secondary_library"),
       ),
     )
   }
@@ -118,7 +116,7 @@ object BazelBspScalaProjectLimitedImportTest : BazelBspTestBaseScenario() {
 
   private fun compareWorkspaceTargetsResults(): BazelBspTestScenarioStep =
     BazelBspTestScenarioStep(
-      "compare workspace targets results",
+      "expect limited 'workspace/buildTargets'",
     ) {
       testClient.testWorkspaceTargets(
         120.seconds,
