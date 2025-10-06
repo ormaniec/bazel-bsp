@@ -66,10 +66,17 @@ bazel_integration_test_all_versions(
 )
 
 bazel_integration_test_all_versions(
-    name = "enabled_rules_test",
+    name = "scala_project_test",
     additional_tags = ["ci-disabled"],
     project_path = "test-projects/workspace/enabled-rules-project",
     test_runner = "//server/e2e/src/main/kotlin/org/jetbrains/bsp/bazel:BazelBspScalaProjectTest",
+)
+
+bazel_integration_test_all_versions(
+    name = "scala_project_limited_import_test",
+    additional_tags = ["ci-disabled"],
+    project_path = "test-projects/workspace/enabled-rules-project",
+    test_runner = "//server/e2e/src/main/kotlin/org/jetbrains/bsp/bazel:BazelBspScalaProjectLimitedImportTest",
 )
 
 bazel_integration_test(
@@ -165,7 +172,7 @@ test_suite(
         ":android_kotlin_project_test",
         ":android_project_test",
         ":build_and_sync_test",
-        ":enabled_rules_test",
+        ":scala_project_test",
         ":first_phase_sync_test",
         ":go_project_test",
         ":java_diagnostics_test",
