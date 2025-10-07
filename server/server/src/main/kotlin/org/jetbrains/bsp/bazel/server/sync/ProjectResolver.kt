@@ -40,7 +40,7 @@ class ProjectResolver(
   private val bazelRunner: BazelRunner,
   private val bazelPathsResolver: BazelPathsResolver,
   private val bspClientLogger: BspClientLogger,
-  private val featureFlags: FeatureFlags,
+  private val featureFlags: FeatureFlags
 ) {
   private suspend fun <T> measured(description: String, f: suspend () -> T): T = tracer.spanBuilder(description).useWithScope { f() }
 

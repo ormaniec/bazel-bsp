@@ -16,6 +16,7 @@ import org.apache.logging.log4j.LogManager
 import org.jetbrains.bazel.label.Label
 import org.jetbrains.bsp.bazel.base.BazelBspTestBaseScenario
 import org.jetbrains.bsp.bazel.base.BazelBspTestScenarioStep
+import org.jetbrains.bsp.protocol.InitializeBuildData
 import org.junit.jupiter.api.DisplayName
 import kotlin.time.Duration.Companion.seconds
 
@@ -38,10 +39,10 @@ object BazelBspScalaProjectLimitedImportTest : BazelBspTestBaseScenario() {
     }
 
   // Test setup
-  override fun createInitializeBuildParamsData(payload: Any): Any {
-    println(">> Overriding 'build/Initialize' data...")
-    return mapOf("limitedImport" to listOf("./scala_targets/Example.scala"))
-  }
+  override fun createInitializeBuildParamsData(): InitializeBuildData =
+    super.createInitializeBuildParamsData().copy(
+      limitedImport = listOf("./scala_targets/Example.scala"),
+    )
 
   private fun createTarget(displayName: String): BuildTarget {
     val javaHome = "file://\$BAZEL_OUTPUT_BASE_PATH/external/remotejdk11_$javaHomeArchitecture/"

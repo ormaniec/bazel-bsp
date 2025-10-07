@@ -59,6 +59,7 @@ class BazelProjectMapper(
   private val kotlinAndroidModulesMerger: KotlinAndroidModulesMerger,
   private val bspClientLogger: BspClientLogger,
   private val featureFlags: FeatureFlags,
+  private val limitedImport: List<String>? = null
 ) {
   private suspend fun <T> measure(description: String, body: suspend () -> T): T = tracer.spanBuilder(description).useWithScope { body() }
 
@@ -995,8 +996,11 @@ class BazelProjectMapper(
     transitiveCompileTimeJarsTargetKinds: Set<String>,
   ): List<Module> =
     withContext(Dispatchers.Default) {
+      val limitedImportSet = limitedImport?.toSet().orEmpty()
+
       targetsToImport
         .toList()
+        .filterNot { it.sourcesList.toSet().intersect(limitedImportSet).isEmpty() }
         .map {
           async {
             createModule(

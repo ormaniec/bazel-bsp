@@ -185,8 +185,18 @@ abstract class BazelBspTestBaseScenario {
       buildClientCapabilities,
     )
 
-  open fun createInitializeBuildParamsData(payload: Any) =
-    payload
+  open fun createInitializeBuildParamsData(): InitializeBuildData {
+    return InitializeBuildData(
+      featureFlags = FeatureFlags(
+        isPythonSupportEnabled = true,
+        isAndroidSupportEnabled = true,
+        isGoSupportEnabled = true,
+        isRustSupportEnabled = false,
+        isPropagateExportsFromDepsEnabled = false,
+      ),
+    )
+  }
+
 
   private fun createTestClientParams(jvmClasspathReceiver: Boolean = false): BazelTestClientParams {
     println("Testing repo workspace path: $workspaceDir")
@@ -194,6 +204,7 @@ abstract class BazelBspTestBaseScenario {
 
     val capabilities = BuildClientCapabilities(listOf("java", "scala", "kotlin", "cpp"))
     capabilities.jvmCompileClasspathReceiver = jvmClasspathReceiver
+
     val initializeBuildParams =
       createInitializeBuildParams(
         "BspTestClient",
@@ -202,15 +213,7 @@ abstract class BazelBspTestBaseScenario {
         workspaceDir,
         capabilities,
       )
-    val featureFlags =
-      FeatureFlags(
-        isPythonSupportEnabled = true,
-        isAndroidSupportEnabled = true,
-        isGoSupportEnabled = true,
-        isRustSupportEnabled = false,
-        isPropagateExportsFromDepsEnabled = false,
-      )
-    initializeBuildParams.data = createInitializeBuildParamsData(InitializeBuildData(featureFlags = featureFlags))
+    initializeBuildParams.data = createInitializeBuildParamsData()
 
     val bazelCache = Path(processBazelOutputWithDownloadRetry("info", "execution_root"))
     val bazelOutputBase = Path(processBazelOutput("info", "output_base"))
