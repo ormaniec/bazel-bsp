@@ -1001,9 +1001,11 @@ class BazelProjectMapper(
       targetsToImport
         .toList()
         .filter {
-          it.sourcesList
-            .filterNot { sourceFile -> limitedImportSet.contains(sourceFile.relativePath) }
-            .isEmpty()
+          if (!limitedImportSet.isEmpty()) {
+            it.sourcesList
+              .filterNot { sourceFile -> limitedImportSet.contains(sourceFile.relativePath) }
+              .isEmpty()
+          } else true
         }
         .map {
           async {
