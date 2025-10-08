@@ -41,7 +41,7 @@ object BazelBspScalaProjectLimitedImportTest : BazelBspTestBaseScenario() {
   // Test setup
   override fun createInitializeBuildParamsData(): InitializeBuildData =
     super.createInitializeBuildParamsData().copy(
-      limitedImport = listOf("./scala_targets/Example.scala"),
+      limitedImport = listOf("scala_targets/Example.scala"),
     )
 
   private fun createTarget(displayName: String): BuildTarget {

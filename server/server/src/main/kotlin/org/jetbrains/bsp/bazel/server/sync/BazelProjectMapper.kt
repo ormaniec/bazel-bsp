@@ -957,7 +957,7 @@ class BazelProjectMapper(
           featureFlags.isRustSupportEnabled &&
           target.hasRustCrateInfo() &&
           hasKnownRustSources(target)
-      )
+        )
 
   private fun shouldImportTargetKind(kind: String, transitiveCompileTimeJarsTargetKinds: Set<String>): Boolean =
     kind in workspaceTargetKinds || kind in transitiveCompileTimeJarsTargetKinds
@@ -1000,7 +1000,11 @@ class BazelProjectMapper(
 
       targetsToImport
         .toList()
-        .filterNot { it.sourcesList.toSet().intersect(limitedImportSet).isEmpty() }
+        .filter {
+          it.sourcesList
+            .filterNot { sourceFile -> limitedImportSet.contains(sourceFile.relativePath) }
+            .isEmpty()
+        }
         .map {
           async {
             createModule(
