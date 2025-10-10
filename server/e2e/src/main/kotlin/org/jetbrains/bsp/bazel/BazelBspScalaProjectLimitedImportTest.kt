@@ -3,21 +3,15 @@ package org.jetbrains.bsp.bazel
 import ch.epfl.scala.bsp4j.BuildTarget
 import ch.epfl.scala.bsp4j.BuildTargetCapabilities
 import ch.epfl.scala.bsp4j.BuildTargetIdentifier
-import ch.epfl.scala.bsp4j.CompileResult
-import ch.epfl.scala.bsp4j.Diagnostic
-import ch.epfl.scala.bsp4j.DiagnosticSeverity
 import ch.epfl.scala.bsp4j.JvmBuildTarget
-import ch.epfl.scala.bsp4j.PublishDiagnosticsParams
 import ch.epfl.scala.bsp4j.ScalaBuildTarget
 import ch.epfl.scala.bsp4j.ScalaPlatform
-import ch.epfl.scala.bsp4j.TextDocumentIdentifier
 import ch.epfl.scala.bsp4j.WorkspaceBuildTargetsResult
 import org.apache.logging.log4j.LogManager
 import org.jetbrains.bazel.label.Label
 import org.jetbrains.bsp.bazel.base.BazelBspTestBaseScenario
 import org.jetbrains.bsp.bazel.base.BazelBspTestScenarioStep
 import org.jetbrains.bsp.protocol.InitializeBuildData
-import org.junit.jupiter.api.DisplayName
 import kotlin.time.Duration.Companion.seconds
 
 //import kotlin.to
@@ -25,7 +19,6 @@ import kotlin.time.Duration.Companion.seconds
 object BazelBspScalaProjectLimitedImportTest : BazelBspTestBaseScenario() {
   private val log = LogManager.getLogger(BazelBspScalaProjectLimitedImportTest::class.java)
   private val testClient = createTestkitClient()
-  private val testClientClasspathReceiver = createTestkitClient(jvmClasspathReceiver = true)
 
   @JvmStatic
   fun main(args: Array<String>) =
